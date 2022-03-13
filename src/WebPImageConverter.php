@@ -89,7 +89,7 @@ class WebPImageConverter {
 	 * @param  int $attachment_id Image ID.
 	 * @return void
 	 */
-	public function generate_webp_on_add_attachment( $attachment_id ): void {
+	public function filter_add_attachment( $attachment_id ): void {
 		// Get Image ID.
 		$this->id = $attachment_id;
 
