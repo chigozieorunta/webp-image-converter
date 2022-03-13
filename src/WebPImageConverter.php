@@ -16,7 +16,6 @@ use Monolog\Handler\StreamHandler;
  * WebpImageConverter Class.
  */
 class WebPImageConverter {
-
 	/**
 	 * Plugin instance.
 	 *
