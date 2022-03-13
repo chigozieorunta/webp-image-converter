@@ -77,9 +77,10 @@ class WebPImageConverter {
 	 * @return void
 	 */
 	public function run(): void {
-		add_action( 'add_attachment', [ $this, 'generate_webp_on_add_attachment' ] );
-		add_filter( 'wp_get_attachment_image_src', [ $this, 'generate_webp_on_wp_get_attachment_image_src' ], 10, 4 );
-		add_filter( 'post_thumbnail_html', [ $this, 'generate_webp_on_post_thumbnail_html' ], 10, 5 );
+		add_action( 'add_attachment', [ $this, 'filter_add_attachment' ] );
+		add_filter( 'wp_get_attachment_image_src', [ $this, 'filter_wp_get_attachment_image_src' ], 10, 4 );
+		add_filter( 'post_thumbnail_html', [ $this, 'filter_post_thumbnail_html' ], 10, 5 );
+		add_filter( 'render_block', [ $this, 'filter_wp_image_block' ], 10, 2 );
 	}
 
 	/**
