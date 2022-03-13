@@ -7,6 +7,7 @@
 
 namespace WebPImageConverter;
 
+use DOMDocument;
 use Monolog\Logger;
 use WebPConvert\WebPConvert;
 use Monolog\Handler\StreamHandler;
