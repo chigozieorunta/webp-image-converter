@@ -93,6 +93,9 @@ class WebPImageConverter {
 		// Get Image ID.
 		$this->id = $attachment_id;
 
+		// Get image source.
+		$this->rel_source = wp_get_attachment_url( $this->id );
+
 		// Ensure this is image, then go ahead.
 		$this->is_image_attachment();
 
