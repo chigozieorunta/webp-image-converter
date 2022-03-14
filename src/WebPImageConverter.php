@@ -97,7 +97,9 @@ class WebPImageConverter {
 		$this->rel_source = wp_get_attachment_url( $this->id );
 
 		// Ensure this is image, then go ahead.
-		$this->is_image_attachment();
+		if ( ! $this->is_image_attachment() ) {
+			return;
+		}
 
 		// Generate WebP for main image.
 		$this->convert_to_webp();
