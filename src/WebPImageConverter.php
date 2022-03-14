@@ -112,7 +112,7 @@ class WebPImageConverter {
 	 * @param  int          $attachment_id Image attachment ID.
 	 * @param  string|int[] $size          Image size (width & height).
 	 * @param  bool         $icon          Whether the image should be treated as an icon.
-	 * @return string
+	 * @return array|false
 	 */
 	public function generate_webp_on_wp_get_attachment_image_src( $image, $attachment_id, $size, $icon ): string {
 		// Get Image ID.
