@@ -162,6 +162,36 @@ class WebPImageConverter {
 	}
 
 	/**
+	 * Generate WebP on WP image_block.
+	 *
+	 * @param string $block_content Block HTML.
+	 * @param array  $block Block array properties.
+	 * @return string
+	 */
+	public function filter_wp_image_block( $block_content, $block ): string {
+		if ( $block['blockName'] === 'core/image' ) {
+			// Get DOM.
+			$DOM = new DOMDocument();
+			$DOM->loadHTML( $block_content, LIBXML_NOERROR );
+
+			// Get source.
+			$image_DOM        = $DOM->getElementsByTagName( 'img' )->item( 0 );
+			$this->rel_source = $image_DOM->getAttribute( 'src' );
+
+			// Generate WebP.
+			$this->convert_to_webp();
+
+			// Return WebP Image.
+			if ( file_exists( $this->abs_destination ) ) {
+				return str_replace( $this->rel_source, $this->rel_destination, $block_content );
+			}
+		}
+
+		// Safely return Block content.
+		return $block_content;
+	}
+
+	/**
 	 * Convert to WebP.
 	 *
 	 * @return void
