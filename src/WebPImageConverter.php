@@ -140,9 +140,14 @@ class WebPImageConverter {
 	 * @param  string|array $attr         Query string or array of attributes.
 	 * @return string
 	 */
-	public function generate_webp_on_post_thumbnail_html( $html, $post_id, $thumbnail_id, $size, $attr ): string {
-		// Get Image ID.
-		$this->id = $thumbnail_id;
+	public function filter_post_thumbnail_html( $html, $post_id, $thumbnail_id, $size, $attr ): string {
+		// Get DOM.
+		$DOM = new DOMDocument();
+		$DOM->loadHTML( $html, LIBXML_NOERROR );
+
+		// Get image source.
+		$image_DOM        = $DOM->getElementsByTagName( 'img' )->item( 0 );
+		$this->rel_source = $image_DOM->getAttribute( 'src' );
 
 		// Generate WebP.
 		$this->convert_to_webp();
