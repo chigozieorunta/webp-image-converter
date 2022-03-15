@@ -197,9 +197,11 @@ class WebPImageConverter {
 	 * @return void
 	 */
 	private function convert_to_webp(): void {
-		// Get image paths.
-		$this->source      = $this->get_image_source();
-		$this->destination = $this->get_image_destination();
+		// Set image sources.
+		$this->set_image_source();
+
+		// Set image destinations.
+		$this->set_image_destination();
 
 		// If image is empty.
 		if ( ! file_exists( $this->source ) ) {
