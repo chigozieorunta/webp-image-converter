@@ -265,7 +265,7 @@ class WebPImageConverter {
 	/**
 	 * Log Messages.
 	 *
-	 * @param  string $message Message to be loged.
+	 * @param  string $message Message to be logged.
 	 * @return void
 	 */
 	private function log( $message ): void {
