@@ -153,8 +153,8 @@ class WebPImageConverter {
 		$this->convert_to_webp();
 
 		// Return WebP Image.
-		if ( file_exists( $this->destination ) ) {
-			return str_replace( $this->relative_source, $this->relative_destination, $html );
+		if ( file_exists( $this->abs_destination ) ) {
+			return str_replace( $this->rel_source, $this->rel_destination, $html );
 		}
 
 		// Safely return default.
