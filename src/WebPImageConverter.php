@@ -204,15 +204,15 @@ class WebPImageConverter {
 		$this->set_image_destination();
 
 		// If image is empty.
-		if ( ! file_exists( $this->source ) ) {
+		if ( ! file_exists( $this->abs_source ) ) {
 			return;
 		}
 
 		// Convert to WebP.
-		if ( ! file_exists( $this->destination ) ) {
+		if ( ! file_exists( $this->abs_destination ) ) {
 			WebPConvert::convert(
-				$this->source,
-				$this->destination,
+				$this->abs_source,
+				$this->abs_destination,
 				[
 					'quality'     => apply_filters( 'wic_quality', 85 ),
 					'max-quality' => apply_filters( 'wic_max_quality', 100 ),
