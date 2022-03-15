@@ -233,17 +233,15 @@ class WebPImageConverter {
 	}
 
 	/**
-	 * Get Image destination (absolute path).
+	 * Set Image destinations.
 	 *
-	 * @return string
+	 * @return void
 	 */
-	private function get_image_destination(): string {
-		// Get file extension.
-		$image_extension            = '.' . pathinfo( $this->source, PATHINFO_EXTENSION );
-		$this->relative_destination = str_replace( $image_extension, '.webp', $this->relative_source );
-
-		// Get image destination.
-		return str_replace( $image_extension, '.webp', $this->source );
+	private function set_image_destination(): void {
+		// Set image destinations.
+		$image_extension       = '.' . pathinfo( $this->rel_source, PATHINFO_EXTENSION );
+		$this->rel_destination = str_replace( $image_extension, '.webp', $this->rel_source );
+		$this->abs_destination = str_replace( $image_extension, '.webp', $this->abs_source );
 	}
 
 	/**
