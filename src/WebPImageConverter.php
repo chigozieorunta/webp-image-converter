@@ -223,17 +223,13 @@ class WebPImageConverter {
 	}
 
 	/**
-	 * Get Image source (absolute path).
+	 * Set Image sources.
 	 *
-	 * @return string
+	 * @return void
 	 */
-	private function get_image_source(): string {
-		// Get relative path.
-		$img_uploads_dir       = wp_upload_dir();
-		$this->relative_source = wp_get_attachment_url( $this->id );
-
-		// Get image source.
-		return str_replace( $img_uploads_dir['baseurl'], $img_uploads_dir['basedir'], $this->relative_source );
+	private function set_image_source(): void {
+		$img_uploads_dir  = wp_upload_dir();
+		$this->abs_source = str_replace( $img_uploads_dir['baseurl'], $img_uploads_dir['basedir'], $this->rel_source );
 	}
 
 	/**
