@@ -270,7 +270,7 @@ class WebPImageConverter {
 	 */
 	private function log( $message ): void {
 		$logger = new Logger( 'info' );
-		$logger->pushHandler( new StreamHandler( __DIR__ . '/log_file.log', Logger::DEBUG ) );
+		$logger->pushHandler( new StreamHandler( plugin_dir_path( __FILE__ ) . '../error.log', Logger::DEBUG ) );
 		$logger->info( $message );
 	}
 }
