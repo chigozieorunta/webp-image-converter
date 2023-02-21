@@ -4,7 +4,13 @@
  *
  * @package WebPImageConverter
  */
-class WebpImageConverter {
+
+namespace WebPImageConverter;
+
+/**
+ * WebpImageConverter Class.
+ */
+class WebPImageConverter {
 	/**
 	 * Plugin instance.
 	 *
