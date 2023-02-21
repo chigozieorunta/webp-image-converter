@@ -1,6 +1,8 @@
 <?php
 /**
- * WebpImageConverter
+ * Main Plugin.
+ *
+ * @package WebPImageConverter
  */
 class WebpImageConverter {
 	/**
