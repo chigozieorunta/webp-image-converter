@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+
+  mysql:
+    image: mysql:5
+    platform: linux/amd64
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      - webp-image-converter
+
+  wordpress:
+    image: wordpress
+    depends_on:
+      - mysql
+    ports:
+      - 1234:80
+    volumes:
+      - wp_data:/var/www/html/wp-content
+      - .:/var/www/html/wp-content/plugins/webp-image-converter
+      - ./wp/config.php:/var/www/html/wp-config.php
+    restart: always
+    environment:
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: password
+    networks:
+      - webp-image-converter
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - 1233:80
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      - webp-image-converter
+
+volumes:
+  db_data: {}
+  wp_data: {}
+
+networks:
+  webp-image-converter:
