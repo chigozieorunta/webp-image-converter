@@ -127,30 +127,11 @@ class WebPImageConverter {
 	}
 
 	/**
-	 * Generate WebP for all image sizes.
-	 *
-	 * @return void
-	 */
-	public function generate_webp_for_all_image_sizes() {
-		// Get all intermediate sizes.
-		$image_sizes = get_intermediate_image_sizes();
-
-		foreach ( $image_sizes as $image_size ) {
-			$image_data = wp_get_attachment_image_src( $this->id, $image_size );
-
-			// Generate WebP.
-			if ( $image_data ) {
-				$this->convert_to_webp();
-			}
-		}
-	}
-
-	/**
 	 * Convert to WebP.
 	 *
 	 * @return void
 	 */
-	public function convert_to_webp(): void {
+	private function convert_to_webp(): void {
 		// Get image paths.
 		$this->source      = $this->get_image_source();
 		$this->destination = $this->get_image_destination();
@@ -179,7 +160,7 @@ class WebPImageConverter {
 	 *
 	 * @return string
 	 */
-	public function get_image_source(): string {
+	private function get_image_source(): string {
 		// Get relative path.
 		$img_uploads_dir       = wp_upload_dir();
 		$this->relative_source = wp_get_attachment_url( $this->id );
@@ -193,7 +174,7 @@ class WebPImageConverter {
 	 *
 	 * @return string
 	 */
-	public function get_image_destination(): string {
+	private function get_image_destination(): string {
 		// Get file extension.
 		$image_extension            = '.' . pathinfo( $this->source, PATHINFO_EXTENSION );
 		$this->relative_destination = str_replace( $image_extension, '.webp', $this->relative_source );
@@ -207,7 +188,7 @@ class WebPImageConverter {
 	 *
 	 * @return boolean
 	 */
-	public function is_image_attachment(): bool {
+	private function is_image_attachment(): bool {
 		// Get the file path.
 		$file_path = get_attached_file( $this->id );
 
