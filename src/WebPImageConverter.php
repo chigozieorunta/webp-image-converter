@@ -91,8 +91,11 @@ class WebPImageConverter {
 		// Ensure this is image, then go ahead.
 		$this->is_image_attachment();
 
-		// Generate WebP.
+		// Generate WebP for main image.
 		$this->convert_to_webp();
+
+		// Generate WebP images for all sizes.
+		$this->generate_webp_for_all_image_sizes();
 	}
 
 	/**
@@ -119,6 +122,25 @@ class WebPImageConverter {
 
 		// Safely return default.
 		return $html;
+	}
+
+	/**
+	 * Generate WebP for all image sizes.
+	 *
+	 * @return void
+	 */
+	public function generate_webp_for_all_image_sizes() {
+		// Get all intermediate sizes.
+		$image_sizes = get_intermediate_image_sizes();
+
+		foreach ( $image_sizes as $image_size ) {
+			$image_data = wp_get_attachment_image_src( $this->id, $image_size );
+
+			// Generate WebP.
+			if ( $image_data ) {
+				$this->convert_to_webp();
+			}
+		}
 	}
 
 	/**
