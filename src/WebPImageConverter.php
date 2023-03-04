@@ -75,24 +75,50 @@ class WebPImageConverter {
 	 */
 	public function run(): void {
 		add_action( 'add_attachment', [ $this, 'generate_webp_on_add_attachment' ] );
+		add_filter( 'wp_get_attachment_image_src', [ $this, 'generate_webp_on_wp_get_attachment_image_src' ], 10, 4 );
 		add_filter( 'post_thumbnail_html', [ $this, 'generate_webp_on_post_thumbnail_html' ], 10, 5 );
 	}
 
 	/**
 	 * Generate WebP on add_attachment.
 	 *
-	 * @param int $image_id Image ID.
+	 * @param int $attachment_id Image ID.
 	 * @return void
 	 */
-	public function generate_webp_on_add_attachment( $image_id ): void {
+	public function generate_webp_on_add_attachment( $attachment_id ): void {
 		// Get Image ID.
-		$this->id = $image_id;
+		$this->id = $attachment_id;
 
 		// Ensure this is image, then go ahead.
 		$this->is_image_attachment();
 
 		// Generate WebP.
 		$this->convert_to_webp();
+	}
+
+	/**
+	 * Generate WebP on wp_get_attachment_image_src.
+	 *
+	 * @param array|false  $image Array of Image data.
+	 * @param int          $attachment_id Image attachment ID.
+	 * @param string|int[] $size Image size (width & height).
+	 * @param bool         $icon Whether the image should be treated as an icon.
+	 * @return string
+	 */
+	public function generate_webp_on_wp_get_attachment_image_src( $image, $attachment_id, $size, $icon ): string {
+		// Get Image ID.
+		$this->id = $attachment_id;
+
+		// Generate WebP.
+		$this->convert_to_webp();
+
+		// Return WebP Image.
+		if ( file_exists( $this->destination ) ) {
+			$image[0] = $this->relative_destination;
+		}
+
+		// Safely return Image.
+		return $image;
 	}
 
 	/**
