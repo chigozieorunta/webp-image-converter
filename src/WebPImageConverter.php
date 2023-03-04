@@ -7,7 +7,9 @@
 
 namespace WebPImageConverter;
 
+use Monolog\Logger;
 use WebPConvert\WebPConvert;
+use Monolog\Handler\StreamHandler;
 
 /**
  * WebpImageConverter Class.
@@ -216,5 +218,11 @@ class WebPImageConverter {
 		}
 
 		return false;
+	}
+
+	private function log( $message ): void {
+		$logger = new Logger( 'info' );
+		$logger->pushHandler( new StreamHandler( __DIR__ . '/log_file.log', Logger::DEBUG ) );
+		$logger->info( $message );
 	}
 }
