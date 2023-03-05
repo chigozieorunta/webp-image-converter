@@ -49,6 +49,13 @@ class WebPImageConverter {
 	private string $relative_source;
 
 	/**
+	 * Image destination (relative path).
+	 *
+	 * @var string
+	 */
+	private string $relative_destination;
+
+	/**
 	 * Return plugin instance.
 	 *
 	 * @return \WebPImageConverter
