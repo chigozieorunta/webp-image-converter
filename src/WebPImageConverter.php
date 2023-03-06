@@ -28,6 +28,13 @@ class WebPImageConverter {
 	private int $id;
 
 	/**
+	 * Image source (absolute path).
+	 *
+	 * @var string
+	 */
+	private string $source;
+
+	/**
 	 * Return plugin instance.
 	 *
 	 * @return \WebPImageConverter
