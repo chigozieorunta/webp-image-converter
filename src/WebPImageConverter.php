@@ -21,6 +21,13 @@ class WebPImageConverter {
 	private static $instance;
 
 	/**
+	 * Image ID.
+	 *
+	 * @var integer
+	 */
+	private int $id;
+
+	/**
 	 * Return plugin instance.
 	 *
 	 * @return \WebPImageConverter
