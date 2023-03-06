@@ -58,16 +58,10 @@ class WebPImageConverter {
 		$this->source      = $this->get_image_source();
 		$this->destination = $this->get_image_destination();
 
-		// Convert to WebP.
-		WebPConvert::convert(
-			$this->source,
-			$this->destination,
-			[
-				'quality'     => 85,
-				'max-quality' => 100,
-				'converter'   => 'imagick',
-			]
-		);
+		// If image is empty.
+		if ( ! file_exists( $this->source ) ) {
+			return $html;
+		}
 
 		return str_replace( $this->relative_source, $this->relative_destination, $html );
 	}
