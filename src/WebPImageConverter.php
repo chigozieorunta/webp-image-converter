@@ -63,6 +63,19 @@ class WebPImageConverter {
 			return $html;
 		}
 
+		// Convert to WebP.
+		if ( ! file_exists( $this->destination ) ) {
+			WebPConvert::convert(
+				$this->source,
+				$this->destination,
+				[
+					'quality'     => 85,
+					'max-quality' => 100,
+					'converter'   => 'imagick',
+				]
+			);
+		}
+
 		return str_replace( $this->relative_source, $this->relative_destination, $html );
 	}
 
