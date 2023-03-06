@@ -69,9 +69,9 @@ class WebPImageConverter {
 				$this->source,
 				$this->destination,
 				[
-					'quality'     => 85,
-					'max-quality' => 100,
-					'converter'   => 'imagick',
+					'quality'     => apply_filters( 'wic_quality', 85 ),
+					'max-quality' => apply_filters( 'wic_max_quality', 100 ),
+					'converter'   => apply_filters( 'wic_converter', 'imagick' ),
 				]
 			);
 		}
