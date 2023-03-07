@@ -25,5 +25,8 @@
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
+    },
+    "require": {
+        "rosell-dk/webp-convert": "^2.9"
     }
 }
