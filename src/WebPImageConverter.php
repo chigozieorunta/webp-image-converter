@@ -16,14 +16,14 @@ class WebPImageConverter {
 	 *
 	 * @var \WebPImageConverter
 	 */
-	private static \WebPImageConverter $instance;
+	private static $instance;
 
 	/**
 	 * Return plugin instance.
 	 *
 	 * @return \WebPImageConverter
 	 */
-	public static function get_instance(): \WebPImageConverter {
+	public static function get_instance(): WebPImageConverter {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
