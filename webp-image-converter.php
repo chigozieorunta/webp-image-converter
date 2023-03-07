@@ -24,4 +24,4 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 }
 
 // Run plugin.
-( \WebPImageConverter\WebPImageConverter::get_instance )->run();
+( \WebPImageConverter\WebPImageConverter::get_instance() )->run();
