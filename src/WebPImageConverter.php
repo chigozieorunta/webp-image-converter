@@ -50,9 +50,9 @@ class WebPImageConverter {
 	 * @param int          $thumbnail_id The post thumbnail ID, or 0 if there isn't one.
 	 * @param string|int[] $size Requested image size.
 	 * @param string|array $attr Query string or array of attributes.
-	 * @return void
+	 * @return string
 	 */
-	public function convert_to_webp( $html, $post_id, $thumbnail_id, $size, $attr ) {
+	public function convert_to_webp( $html, $post_id, $thumbnail_id, $size, $attr ): string {
 		// Get image paths.
 		$this->id          = $thumbnail_id;
 		$this->source      = $this->get_image_source();
