@@ -7,6 +7,8 @@
 
 namespace WebPImageConverter;
 
+use WebPConvert\WebPConvert;
+
 /**
  * WebpImageConverter Class.
  */
@@ -37,6 +39,6 @@ class WebPImageConverter {
 	 * @return void
 	 */
 	public function run(): void {
-		// Run hooks.
+		add_filter( 'post_thumbnail_html', [ $this, 'convert_to_webp' ], 10, 5 );
 	}
 }
