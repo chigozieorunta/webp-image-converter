@@ -85,4 +85,18 @@ class WebPImageConverter {
 		// Get image source.
 		return str_replace( $img_uploads_dir['baseurl'], $img_uploads_dir['basedir'], $this->relative_source );
 	}
+
+	/**
+	 * Get Image destination (absolute path).
+	 *
+	 * @return string
+	 */
+	public function get_image_destination(): string {
+		// Get file extension.
+		$image_extension            = '.' . pathinfo( $this->source, PATHINFO_EXTENSION );
+		$this->relative_destination = str_replace( $image_extension, '.webp', $this->relative_source );
+
+		// Get image destination.
+		return str_replace( $image_extension, '.webp', $this->source );
+	}
 }
