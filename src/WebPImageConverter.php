@@ -74,8 +74,25 @@ class WebPImageConverter {
 	 * @return void
 	 */
 	public function run(): void {
-		add_filter( 'post_thumbnail_html', [ $this, 'generate_webp_on_post_thumbnail_html' ], 10, 5 );
 		add_action( 'add_attachment', [ $this, 'generate_webp_on_add_attachment' ] );
+		add_filter( 'post_thumbnail_html', [ $this, 'generate_webp_on_post_thumbnail_html' ], 10, 5 );
+	}
+
+	/**
+	 * Generate WebP on add_attachment.
+	 *
+	 * @param int $image_id Image ID.
+	 * @return void
+	 */
+	public function generate_webp_on_add_attachment( $image_id ): void {
+		// Get Image ID.
+		$this->id = $image_id;
+
+		// Ensure this is image first then go ahead.
+		$this->is_image_attachment();
+
+		// Generate WebP.
+		$this->convert_to_webp();
 	}
 
 	/**
