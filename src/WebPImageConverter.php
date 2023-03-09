@@ -90,7 +90,7 @@ class WebPImageConverter {
 
 		// If image is empty.
 		if ( ! file_exists( $this->source ) ) {
-			return $html;
+			return;
 		}
 
 		// Convert to WebP.
