@@ -96,6 +96,32 @@ class WebPImageConverter {
 	}
 
 	/**
+	 * Generate WebP on post_thumbnail_html.
+	 *
+	 * @param string       $html The post thumbnail HTML.
+	 * @param int          $post_id The post ID.
+	 * @param int          $thumbnail_id The post thumbnail ID, or 0 if there isn't one.
+	 * @param string|int[] $size Requested image size.
+	 * @param string|array $attr Query string or array of attributes.
+	 * @return string
+	 */
+	public function generate_webp_on_post_thumbnail_html( $html, $post_id, $thumbnail_id, $size, $attr ): string {
+		// Get Image ID.
+		$this->id = $thumbnail_id;
+
+		// Generate WebP.
+		$this->convert_to_webp();
+
+		// Return WebP Image.
+		if ( file_exists( $this->destination ) ) {
+			return str_replace( $this->relative_source, $this->relative_destination, $html );
+		}
+
+		// Safely return default.
+		return $html;
+	}
+
+	/**
 	 * Convert to WebP.
 	 *
 	 * @return void
