@@ -105,8 +105,6 @@ class WebPImageConverter {
 				]
 			);
 		}
-
-		return str_replace( $this->relative_source, $this->relative_destination, $html );
 	}
 
 	/**
