@@ -134,4 +134,22 @@ class WebPImageConverter {
 		// Get image destination.
 		return str_replace( $image_extension, '.webp', $this->source );
 	}
+
+	/**
+	 * Check if attachment is image.
+	 *
+	 * @return boolean
+	 */
+	public function is_image_attachment(): bool {
+		// Get the file path.
+		$file_path = get_attached_file( $this->id );
+
+		// Check if it's an image.
+		$filetype = wp_check_filetype( $file_path );
+		if ( strpos( $filetype['type'], 'image/' ) !== false ) {
+			return true;
+		}
+
+		return false;
+	}
 }
