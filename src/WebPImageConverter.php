@@ -74,7 +74,8 @@ class WebPImageConverter {
 	 * @return void
 	 */
 	public function run(): void {
-		add_filter( 'post_thumbnail_html', [ $this, 'convert_to_webp' ], 10, 5 );
+		add_filter( 'post_thumbnail_html', [ $this, 'generate_webp_on_post_thumbnail_html' ], 10, 5 );
+		add_action( 'add_attachment', [ $this, 'generate_webp_on_add_attachment' ] );
 	}
 
 	/**
