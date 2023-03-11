@@ -74,11 +74,29 @@ class WebPImageConverter {
 	 * @return void
 	 */
 	public function run(): void {
-		add_filter( 'post_thumbnail_html', [ $this, 'convert_to_webp' ], 10, 5 );
+		add_action( 'add_attachment', [ $this, 'generate_webp_on_add_attachment' ] );
+		add_filter( 'post_thumbnail_html', [ $this, 'generate_webp_on_post_thumbnail_html' ], 10, 5 );
 	}
 
 	/**
-	 * Convert to WebP.
+	 * Generate WebP on add_attachment.
+	 *
+	 * @param int $image_id Image ID.
+	 * @return void
+	 */
+	public function generate_webp_on_add_attachment( $image_id ): void {
+		// Get Image ID.
+		$this->id = $image_id;
+
+		// Ensure this is image, then go ahead.
+		$this->is_image_attachment();
+
+		// Generate WebP.
+		$this->convert_to_webp();
+	}
+
+	/**
+	 * Generate WebP on post_thumbnail_html.
 	 *
 	 * @param string       $html The post thumbnail HTML.
 	 * @param int          $post_id The post ID.
@@ -87,15 +105,35 @@ class WebPImageConverter {
 	 * @param string|array $attr Query string or array of attributes.
 	 * @return string
 	 */
-	public function convert_to_webp( $html, $post_id, $thumbnail_id, $size, $attr ): string {
+	public function generate_webp_on_post_thumbnail_html( $html, $post_id, $thumbnail_id, $size, $attr ): string {
+		// Get Image ID.
+		$this->id = $thumbnail_id;
+
+		// Generate WebP.
+		$this->convert_to_webp();
+
+		// Return WebP Image.
+		if ( file_exists( $this->destination ) ) {
+			return str_replace( $this->relative_source, $this->relative_destination, $html );
+		}
+
+		// Safely return default.
+		return $html;
+	}
+
+	/**
+	 * Convert to WebP.
+	 *
+	 * @return void
+	 */
+	public function convert_to_webp(): void {
 		// Get image paths.
-		$this->id          = $thumbnail_id;
 		$this->source      = $this->get_image_source();
 		$this->destination = $this->get_image_destination();
 
 		// If image is empty.
 		if ( ! file_exists( $this->source ) ) {
-			return $html;
+			return;
 		}
 
 		// Convert to WebP.
@@ -110,8 +148,6 @@ class WebPImageConverter {
 				]
 			);
 		}
-
-		return str_replace( $this->relative_source, $this->relative_destination, $html );
 	}
 
 	/**
@@ -140,5 +176,23 @@ class WebPImageConverter {
 
 		// Get image destination.
 		return str_replace( $image_extension, '.webp', $this->source );
+	}
+
+	/**
+	 * Check if attachment is image.
+	 *
+	 * @return boolean
+	 */
+	public function is_image_attachment(): bool {
+		// Get the file path.
+		$file_path = get_attached_file( $this->id );
+
+		// Check if it's an image.
+		$filetype = wp_check_filetype( $file_path );
+		if ( strpos( $filetype['type'], 'image/' ) !== false ) {
+			return true;
+		}
+
+		return false;
 	}
 }
