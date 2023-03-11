@@ -88,7 +88,7 @@ class WebPImageConverter {
 		// Get Image ID.
 		$this->id = $image_id;
 
-		// Ensure this is image first then go ahead.
+		// Ensure this is image, then go ahead.
 		$this->is_image_attachment();
 
 		// Generate WebP.
