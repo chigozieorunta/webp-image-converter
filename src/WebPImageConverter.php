@@ -7,7 +7,9 @@
 
 namespace WebPImageConverter;
 
+use Monolog\Logger;
 use WebPConvert\WebPConvert;
+use Monolog\Handler\StreamHandler;
 
 /**
  * WebpImageConverter Class.
@@ -92,8 +94,11 @@ class WebPImageConverter {
 		// Ensure this is image, then go ahead.
 		$this->is_image_attachment();
 
-		// Generate WebP.
+		// Generate WebP for main image.
 		$this->convert_to_webp();
+
+		// Generate WebP images for all sizes.
+		$this->generate_webp_for_all_image_sizes();
 	}
 
 	/**
@@ -152,7 +157,7 @@ class WebPImageConverter {
 	 *
 	 * @return void
 	 */
-	public function convert_to_webp(): void {
+	private function convert_to_webp(): void {
 		// Get image paths.
 		$this->source      = $this->get_image_source();
 		$this->destination = $this->get_image_destination();
@@ -181,7 +186,7 @@ class WebPImageConverter {
 	 *
 	 * @return string
 	 */
-	public function get_image_source(): string {
+	private function get_image_source(): string {
 		// Get relative path.
 		$img_uploads_dir       = wp_upload_dir();
 		$this->relative_source = wp_get_attachment_url( $this->id );
@@ -195,7 +200,7 @@ class WebPImageConverter {
 	 *
 	 * @return string
 	 */
-	public function get_image_destination(): string {
+	private function get_image_destination(): string {
 		// Get file extension.
 		$image_extension            = '.' . pathinfo( $this->source, PATHINFO_EXTENSION );
 		$this->relative_destination = str_replace( $image_extension, '.webp', $this->relative_source );
@@ -209,7 +214,7 @@ class WebPImageConverter {
 	 *
 	 * @return boolean
 	 */
-	public function is_image_attachment(): bool {
+	private function is_image_attachment(): bool {
 		// Get the file path.
 		$file_path = get_attached_file( $this->id );
 
@@ -220,5 +225,11 @@ class WebPImageConverter {
 		}
 
 		return false;
+	}
+
+	private function log( $message ): void {
+		$logger = new Logger( 'info' );
+		$logger->pushHandler( new StreamHandler( __DIR__ . '/log_file.log', Logger::DEBUG ) );
+		$logger->info( $message );
 	}
 }
