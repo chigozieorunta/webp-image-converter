@@ -19,7 +19,8 @@
         "wp-coding-standards/wpcs": "^2.3",
         "codeception/codeception": "^5.0",
         "codeception/module-phpbrowser": "*",
-        "codeception/module-asserts": "*"
+        "codeception/module-asserts": "*",
+        "monolog/monolog": "^2.9"
     },
     "config": {
         "allow-plugins": {
