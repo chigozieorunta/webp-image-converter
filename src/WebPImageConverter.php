@@ -227,6 +227,12 @@ class WebPImageConverter {
 		return false;
 	}
 
+	/**
+	 * Log Messages.
+	 *
+	 * @param string $message Message to be loged.
+	 * @return void
+	 */
 	private function log( $message ): void {
 		$logger = new Logger( 'info' );
 		$logger->pushHandler( new StreamHandler( __DIR__ . '/log_file.log', Logger::DEBUG ) );
