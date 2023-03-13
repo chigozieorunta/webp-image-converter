@@ -77,7 +77,7 @@ class WebPImageConverter {
 	 * @return void
 	 */
 	public function run(): void {
-		add_action( 'add_attachment', [ $this, 'filter_add_attachment' ] );
+		add_action( 'add_attachment', [ $this, 'hook_add_attachment' ] );
 		add_filter( 'wp_get_attachment_image_src', [ $this, 'filter_wp_get_attachment_image_src' ], 10, 4 );
 		add_filter( 'post_thumbnail_html', [ $this, 'filter_post_thumbnail_html' ], 10, 5 );
 		add_filter( 'render_block', [ $this, 'filter_wp_image_block' ], 10, 2 );
@@ -89,7 +89,7 @@ class WebPImageConverter {
 	 * @param  int $attachment_id Image ID.
 	 * @return void
 	 */
-	public function filter_add_attachment( $attachment_id ): void {
+	public function hook_add_attachment( $attachment_id ): void {
 		// Get Image ID.
 		$this->id = $attachment_id;
 
