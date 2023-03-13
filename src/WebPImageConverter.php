@@ -15,6 +15,7 @@ use Monolog\Handler\StreamHandler;
  * WebpImageConverter Class.
  */
 class WebPImageConverter {
+
 	/**
 	 * Plugin instance.
 	 *
@@ -84,7 +85,7 @@ class WebPImageConverter {
 	/**
 	 * Generate WebP on add_attachment.
 	 *
-	 * @param int $attachment_id Image ID.
+	 * @param  int $attachment_id Image ID.
 	 * @return void
 	 */
 	public function generate_webp_on_add_attachment( $attachment_id ): void {
@@ -96,23 +97,23 @@ class WebPImageConverter {
 
 		// Generate WebP for main image.
 		$this->convert_to_webp();
-
-		// Generate WebP images for all sizes.
-		$this->generate_webp_for_all_image_sizes();
 	}
 
 	/**
 	 * Generate WebP on wp_get_attachment_image_src.
 	 *
-	 * @param array|false  $image Array of Image data.
-	 * @param int          $attachment_id Image attachment ID.
-	 * @param string|int[] $size Image size (width & height).
-	 * @param bool         $icon Whether the image should be treated as an icon.
+	 * @param  array|false  $image         Array of Image data.
+	 * @param  int          $attachment_id Image attachment ID.
+	 * @param  string|int[] $size          Image size (width & height).
+	 * @param  bool         $icon          Whether the image should be treated as an icon.
 	 * @return string
 	 */
 	public function generate_webp_on_wp_get_attachment_image_src( $image, $attachment_id, $size, $icon ): string {
 		// Get Image ID.
 		$this->id = $attachment_id;
+
+		// Get size.
+		list($width, $height)
 
 		// Generate WebP.
 		$this->convert_to_webp();
@@ -129,11 +130,11 @@ class WebPImageConverter {
 	/**
 	 * Generate WebP on post_thumbnail_html.
 	 *
-	 * @param string       $html The post thumbnail HTML.
-	 * @param int          $post_id The post ID.
-	 * @param int          $thumbnail_id The post thumbnail ID, or 0 if there isn't one.
-	 * @param string|int[] $size Requested image size.
-	 * @param string|array $attr Query string or array of attributes.
+	 * @param  string       $html         The post thumbnail HTML.
+	 * @param  int          $post_id      The post ID.
+	 * @param  int          $thumbnail_id The post thumbnail ID, or 0 if there isn't one.
+	 * @param  string|int[] $size         Requested image size.
+	 * @param  string|array $attr         Query string or array of attributes.
 	 * @return string
 	 */
 	public function generate_webp_on_post_thumbnail_html( $html, $post_id, $thumbnail_id, $size, $attr ): string {
@@ -230,7 +231,7 @@ class WebPImageConverter {
 	/**
 	 * Log Messages.
 	 *
-	 * @param string $message Message to be loged.
+	 * @param  string $message Message to be loged.
 	 * @return void
 	 */
 	private function log( $message ): void {
