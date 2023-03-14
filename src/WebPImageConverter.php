@@ -142,12 +142,12 @@ class WebPImageConverter {
 	 */
 	public function filter_post_thumbnail_html( $html, $post_id, $thumbnail_id, $size, $attr ): string {
 		// Get DOM.
-		$DOM = new DOMDocument();
-		$DOM->loadHTML( $html, LIBXML_NOERROR );
+		$dom = new DOMDocument();
+		$dom->loadHTML( $html, LIBXML_NOERROR );
 
 		// Get image source.
-		$image_DOM        = $DOM->getElementsByTagName( 'img' )->item( 0 );
-		$this->rel_source = $image_DOM->getAttribute( 'src' );
+		$image_dom        = $dom->getElementsByTagName( 'img' )->item( 0 );
+		$this->rel_source = $image_dom->getAttribute( 'src' );
 
 		// Generate WebP.
 		$this->convert_to_webp();
@@ -171,12 +171,12 @@ class WebPImageConverter {
 	public function filter_wp_image_block( $block_content, $block ): string {
 		if ( $block['blockName'] === 'core/image' ) {
 			// Get DOM.
-			$DOM = new DOMDocument();
-			$DOM->loadHTML( $block_content, LIBXML_NOERROR );
+			$dom = new DOMDocument();
+			$dom->loadHTML( $block_content, LIBXML_NOERROR );
 
 			// Get source.
-			$image_DOM        = $DOM->getElementsByTagName( 'img' )->item( 0 );
-			$this->rel_source = $image_DOM->getAttribute( 'src' );
+			$image_dom        = $dom->getElementsByTagName( 'img' )->item( 0 );
+			$this->rel_source = $image_dom->getAttribute( 'src' );
 
 			// Generate WebP.
 			$this->convert_to_webp();
