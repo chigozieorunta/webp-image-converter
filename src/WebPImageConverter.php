@@ -169,7 +169,7 @@ class WebPImageConverter {
 	 * @return string
 	 */
 	public function filter_wp_image_block( $block_content, $block ): string {
-		if ( $block['blockName'] === 'core/image' ) {
+		if ( 'core/image' === $block['blockName'] ) {
 			// Get DOM.
 			$dom = new DOMDocument();
 			$dom->loadHTML( $block_content, LIBXML_NOERROR );
