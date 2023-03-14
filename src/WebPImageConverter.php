@@ -116,7 +116,7 @@ class WebPImageConverter {
 	 */
 	public function filter_wp_get_attachment_image_src( $image, $attachment_id, $size, $icon ) {
 		// Get image source.
-		$this->rel_source = isset ( $image[0] ) ? (string) $image[0] : (string) $image;
+		$this->rel_source = isset( $image[0] ) ? (string) $image[0] : (string) $image;
 
 		// Generate WebP.
 		$this->convert_to_webp();
