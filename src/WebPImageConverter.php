@@ -7,11 +7,6 @@
 
 namespace WebPImageConverter;
 
-use DOMDocument;
-use Monolog\Logger;
-use WebPConvert\WebPConvert;
-use Monolog\Handler\StreamHandler;
-
 /**
  * WebpImageConverter Class.
  */
@@ -63,94 +58,16 @@ class WebPImageConverter {
 	}
 
 	/**
-	 * Generate WebP on post_thumbnail_html.
-	 *
-	 * @param  string       $html         The post thumbnail HTML.
-	 * @param  int          $post_id      The post ID.
-	 * @param  int          $thumbnail_id The post thumbnail ID, or 0 if there isn't one.
-	 * @param  string|int[] $size         Requested image size.
-	 * @param  string|array $attr         Query string or array of attributes.
-	 * @return string
-	 */
-	public function filter_post_thumbnail_html( $html, $post_id, $thumbnail_id, $size, $attr ): string {
-		// Get DOM.
-		$dom = new DOMDocument();
-		$dom->loadHTML( $html, LIBXML_NOERROR );
-
-		// Get image source.
-		$image_dom        = $dom->getElementsByTagName( 'img' )->item( 0 );
-		$this->rel_source = $image_dom->getAttribute( 'src' );
-
-		// Generate WebP.
-		$this->convert_to_webp();
-
-		// Return WebP Image.
-		if ( file_exists( $this->abs_destination ) ) {
-			return str_replace( $this->rel_source, $this->rel_destination, $html );
-		}
-
-		// Safely return default.
-		return $html;
-	}
-
-	/**
-	 * Generate WebP on WP image_block.
-	 *
-	 * @param string $block_content Block HTML.
-	 * @param array  $block Block array properties.
-	 * @return string
-	 */
-	public function filter_wp_image_block( $block_content, $block ): string {
-		if ( 'core/image' === $block['blockName'] ) {
-			// Get DOM.
-			$dom = new DOMDocument();
-			$dom->loadHTML( $block_content, LIBXML_NOERROR );
-
-			// Get source.
-			$image_dom        = $dom->getElementsByTagName( 'img' )->item( 0 );
-			$this->rel_source = $image_dom->getAttribute( 'src' );
-
-			// Generate WebP.
-			$this->convert_to_webp();
-
-			// Return WebP Image.
-			if ( file_exists( $this->abs_destination ) ) {
-				return str_replace( $this->rel_source, $this->rel_destination, $block_content );
-			}
-		}
-
-		// Safely return Block content.
-		return $block_content;
-	}
-
-	/**
-	 * Convert to WebP.
+	 * Register Menu.
 	 *
 	 * @return void
 	 */
-	private function convert_to_webp(): void {
-		// Set image sources.
-		$this->set_image_source();
-
-		// Set image destinations.
-		$this->set_image_destination();
-
-		// If image is empty.
-		if ( ! file_exists( $this->abs_source ) ) {
-			return;
-		}
-
-		// Convert to WebP.
-		if ( ! file_exists( $this->abs_destination ) ) {
-			WebPConvert::convert(
-				$this->abs_source,
-				$this->abs_destination,
-				[
-					'quality'     => (int) apply_filters( 'wic_quality', 85 ),
-					'max-quality' => (int) apply_filters( 'wic_max_quality', 100 ),
-					'converter'   => (string) apply_filters( 'wic_converter', 'imagick' ),
-				]
-			);
+	public function register_menu(): void {
+		try {
+			$menu = Plugin\Menu::get_instance();
+			$menu->init();
+		} catch ( Exception $e ) {
+			wp_die( 'Error: Registering Menu - ' . $e->getMessage() );
 		}
 	}
 
