@@ -86,14 +86,16 @@ class WebPImageConverter {
 	}
 
 	/**
-	 * Log Messages.
+	 * Register Admin Assets.
 	 *
-	 * @param  string $message Message to be logged.
 	 * @return void
 	 */
-	private function log( $message ): void {
-		$logger = new Logger( 'info' );
-		$logger->pushHandler( new StreamHandler( plugin_dir_path( __FILE__ ) . '../error.log', Logger::DEBUG ) );
-		$logger->info( $message );
+	public function register_admin_assets(): void {
+		try {
+			$assets = Plugin\Assets::get_instance();
+			$assets->admin_init();
+		} catch ( Exception $e ) {
+			wp_die( 'Error: Registering Admin Assets - ' . $e->getMessage() );
+		}
 	}
 }
