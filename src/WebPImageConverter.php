@@ -72,43 +72,17 @@ class WebPImageConverter {
 	}
 
 	/**
-	 * Set Image sources.
+	 * Register Assets.
 	 *
 	 * @return void
 	 */
-	private function set_image_source(): void {
-		$img_uploads_dir  = wp_upload_dir();
-		$this->abs_source = str_replace( $img_uploads_dir['baseurl'], $img_uploads_dir['basedir'], $this->rel_source );
-	}
-
-	/**
-	 * Set Image destinations.
-	 *
-	 * @return void
-	 */
-	private function set_image_destination(): void {
-		// Set image destinations.
-		$image_extension       = '.' . pathinfo( $this->rel_source, PATHINFO_EXTENSION );
-		$this->rel_destination = str_replace( $image_extension, '.webp', $this->rel_source );
-		$this->abs_destination = str_replace( $image_extension, '.webp', $this->abs_source );
-	}
-
-	/**
-	 * Check if attachment is image.
-	 *
-	 * @return boolean
-	 */
-	private function is_image_attachment(): bool {
-		// Get the file path.
-		$file_path = get_attached_file( $this->id );
-
-		// Check if it's an image.
-		$filetype = wp_check_filetype( $file_path );
-		if ( strpos( $filetype['type'], 'image/' ) !== false ) {
-			return true;
+	public function register_assets(): void {
+		try {
+			$assets = Plugin\Assets::get_instance();
+			$assets->init();
+		} catch ( Exception $e ) {
+			wp_die( 'Error: Registering Assets - ' . $e->getMessage() );
 		}
-
-		return false;
 	}
 
 	/**
