@@ -24,41 +24,6 @@ class WebPImageConverter {
 	private static $instance;
 
 	/**
-	 * Image ID.
-	 *
-	 * @var integer
-	 */
-	private int $id;
-
-	/**
-	 * Image source (absolute path).
-	 *
-	 * @var string
-	 */
-	private string $abs_source = '';
-
-	/**
-	 * Image destination (absolute path).
-	 *
-	 * @var string
-	 */
-	private string $abs_destination = '';
-
-	/**
-	 * Image source (relative path).
-	 *
-	 * @var string
-	 */
-	private string $rel_source = '';
-
-	/**
-	 * Image destination (relative path).
-	 *
-	 * @var string
-	 */
-	private string $rel_destination = '';
-
-	/**
 	 * Return plugin instance.
 	 *
 	 * @return \WebPImageConverter
@@ -77,57 +42,24 @@ class WebPImageConverter {
 	 * @return void
 	 */
 	public function run(): void {
-		add_action( 'add_attachment', [ $this, 'hook_add_attachment' ] );
-		add_filter( 'wp_get_attachment_image_src', [ $this, 'filter_wp_get_attachment_image_src' ], 10, 4 );
-		add_filter( 'post_thumbnail_html', [ $this, 'filter_post_thumbnail_html' ], 10, 5 );
-		add_filter( 'render_block', [ $this, 'filter_wp_image_block' ], 10, 2 );
+		add_action( 'admin_menu', [ $this, 'register_menu' ], 9 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'register_assets' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'register_admin_assets' ] );
+		$this->register_webp_image_converter();
 	}
 
 	/**
-	 * Generate WebP on add_attachment.
+	 * Register WebP Image Converter.
 	 *
-	 * @param  int $attachment_id Image ID.
 	 * @return void
 	 */
-	public function hook_add_attachment( $attachment_id ): void {
-		// Get Image ID.
-		$this->id = $attachment_id;
-
-		// Get image source.
-		$this->rel_source = wp_get_attachment_url( $this->id );
-
-		// Ensure this is image, then go ahead.
-		if ( ! $this->is_image_attachment() ) {
-			return;
+	public function register_webp_image_converter(): void {
+		try {
+			$converter = Inc\WebPImageConverter::get_instance();
+			$converter->run();
+		} catch ( Exception $e ) {
+			wp_die( 'Error: Registering Plugin - ' . $e->getMessage() );
 		}
-
-		// Generate WebP for main image.
-		$this->convert_to_webp();
-	}
-
-	/**
-	 * Generate WebP on wp_get_attachment_image_src.
-	 *
-	 * @param  array|false  $image         Array of Image data.
-	 * @param  int          $attachment_id Image attachment ID.
-	 * @param  string|int[] $size          Image size (width & height).
-	 * @param  bool         $icon          Whether the image should be treated as an icon.
-	 * @return array|false
-	 */
-	public function filter_wp_get_attachment_image_src( $image, $attachment_id, $size, $icon ) {
-		// Get image source.
-		$this->rel_source = isset( $image[0] ) ? (string) $image[0] : (string) $image;
-
-		// Generate WebP.
-		$this->convert_to_webp();
-
-		// Return WebP Image.
-		if ( file_exists( $this->abs_destination ) ) {
-			$image[0] = $this->rel_destination;
-		}
-
-		// Safely return Image.
-		return $image;
 	}
 
 	/**
