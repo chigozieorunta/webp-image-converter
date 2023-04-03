@@ -8,9 +8,7 @@
 namespace WebPImageConverter\Inc;
 
 use DOMDocument;
-use Monolog\Logger;
 use WebPConvert\WebPConvert;
-use Monolog\Handler\StreamHandler;
 
 /**
  * WebpImageConverter Class.
@@ -260,17 +258,5 @@ class WebPImageConverter {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Log Messages.
-	 *
-	 * @param  string $message Message to be logged.
-	 * @return void
-	 */
-	private function log( $message ): void {
-		$logger = new Logger( 'info' );
-		$logger->pushHandler( new StreamHandler( plugin_dir_path( __FILE__ ) . '../../error.log', Logger::DEBUG ) );
-		$logger->info( $message );
 	}
 }
