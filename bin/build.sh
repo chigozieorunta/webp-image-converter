@@ -7,7 +7,7 @@ PLUGIN_FILE="webp-image-converter.php"
 BUILD_DIR="build"
 
 # Set the source directories you want to copy
-SRC_DIRS="assets languages src vendor"
+SRC_DIRS="assets languages src"
 
 # Create the build directory if it doesn't exist
 if [ ! -d "$BUILD_DIR" ]; then
@@ -21,6 +21,17 @@ do
 done
 cp "$PLUGIN_FILE" "$BUILD_DIR/$PLUGIN_FILE"
 cp "readme.txt" "$BUILD_DIR/readme.txt"
+cp "composer.json" "$BUILD_DIR/composer.json"
+
+# Navigate to the build directory
+cd "$BUILD_DIR"
+
+# Remove the dev dependencies
+composer install --no-dev
+
+# Remove the composer.json and lock files
+rm "composer.json"
+rm "composer.lock"
 
 # Confirm that the files have been copied successfully
 echo "Build complete!"
