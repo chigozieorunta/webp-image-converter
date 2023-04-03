@@ -27,7 +27,8 @@
     "lint:css": "stylelint assets/**/*.css && stylelint assets/**/*.scss",
     "lint:css:fix": "stylelint assets/**/*.css --fix && stylelint assets/**/*.scss --fix",
     "lint:js": "npx eslint assets/**/*.js",
-    "lint:js:fix": "npx eslint --fix assets/**/*.js"
+    "lint:js:fix": "npx eslint --fix assets/**/*.js",
+    "build": "bin/build.sh"
   },
   "devDependencies": {
     "@wordpress/eslint-plugin": "^14.1.0",
