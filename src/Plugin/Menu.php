@@ -70,6 +70,11 @@ class Menu {
 		echo $this->get_plugin_page();
 	}
 
+	/**
+	 * Get Plugin page.
+	 *
+	 * @return string
+	 */
 	public function get_plugin_page(): string {
 		return sprintf(
 			'<div style="background: #fff; height: 400px; display: flex; flex-wrap: wrap; gap: 0; font-family: Lato, Arial;">
